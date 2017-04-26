@@ -43,8 +43,8 @@ public class Process {
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, renderable.getElementBuffersId());
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, renderable.getTextureId());
 
-        GLES20.glVertexAttribPointer(attribPosition, 3, GLES20.GL_FLOAT, false, 8*4, 0);
-        GLES20.glVertexAttribPointer(attribTextureCoordinate, 2, GLES20.GL_FLOAT, false, 8*4, 6*4);
+        GLES20.glVertexAttribPointer(attribPosition, 3, GLES20.GL_FLOAT, false, 32, 0);
+        GLES20.glVertexAttribPointer(attribTextureCoordinate, 2, GLES20.GL_FLOAT, false, 32, 24);
 
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, renderable.getFaceNum() * 3, GLES20.GL_UNSIGNED_INT, 0);
 

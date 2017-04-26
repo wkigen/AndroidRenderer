@@ -14,10 +14,10 @@ public class Image extends Renderable {
 
     static final float DATA[] = {
             //POSITION   NORMAL  TEXTURE_COORDINATE
-            -1.0f, -1.0f, 1.0f, 0.0f,0.0f,0.0f, 0.0f, 0.0f,
-            1.0f, -1.0f, 1.0f,  0.0f,0.0f,0.0f, 1.0f, 0.0f,
-            -1.0f, 1.0f, 1.0f,  0.0f,0.0f,0.0f, 0.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,   0.0f,0.0f,0.0f, 1.0f, 1.0f,
+            -1.0f, -1.0f, 1.0f, 0.0f,0.0f,0.0f, 0.0f, 1.0f,
+            1.0f, -1.0f, 1.0f,  0.0f,0.0f,0.0f, 1.0f, 1.0f,
+            -1.0f, 1.0f, 1.0f,  0.0f,0.0f,0.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, 1.0f,   0.0f,0.0f,0.0f, 1.0f, 0.0f,
     };
 
     public static final int INDEX[]={
