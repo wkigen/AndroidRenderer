@@ -12,23 +12,17 @@ import java.nio.FloatBuffer;
  */
 public class Image extends Renderable {
 
-    static final float CUBE[] = {
-            -1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-    };
-
-    public static final float TEXTURE_COORDINATE[] = {
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 1.0f,
+    static final float DATA[] = {
+            //POSITION   NORMAL  TEXTURE_COORDINATE
+            -1.0f, -1.0f, 1.0f, 0.0f,0.0f,0.0f, 0.0f, 0.0f,
+            1.0f, -1.0f, 1.0f,  0.0f,0.0f,0.0f, 1.0f, 0.0f,
+            -1.0f, 1.0f, 1.0f,  0.0f,0.0f,0.0f, 0.0f, 1.0f,
+            1.0f, 1.0f, 1.0f,   0.0f,0.0f,0.0f, 1.0f, 1.0f,
     };
 
     public static final int INDEX[]={
             0,1,2,
-            1,3,2
+            1,3,2,
     };
 
     public Image(){
@@ -38,15 +32,10 @@ public class Image extends Renderable {
     @Override
     protected void init(){
         super.init();
-        dataBuffer = ByteBuffer.allocateDirect(CUBE.length * 4)
+        dataBuffer = ByteBuffer.allocateDirect(DATA.length * 4)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer();
-        dataBuffer.put(CUBE).flip();
-
-        textureCoordinateBuffer = ByteBuffer.allocateDirect(TEXTURE_COORDINATE.length * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer();
-        textureCoordinateBuffer.put(TEXTURE_COORDINATE).flip();
+        dataBuffer.put(DATA).flip();
 
         indexBuffer  = ByteBuffer.allocateDirect(INDEX.length * 4)
                 .order(ByteOrder.nativeOrder())
