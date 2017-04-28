@@ -7,7 +7,6 @@ import com.vicky.renderer.R;
 import com.vicky.renderer.renderable.Renderable;
 import com.vicky.renderer.utils.OpenGlUtils;
 
-import java.util.List;
 
 /**
  * Created by vicky on 2017/4/21.
@@ -18,6 +17,8 @@ public class Process {
     protected int attribPosition;
     protected int attribTextureCoordinate;
     protected int uniformTexture;
+    protected int uniformModelMatrix;
+    protected int uniformProjectdMatrix;
 
     public Process(){
         init();
@@ -31,9 +32,11 @@ public class Process {
         attribPosition = GLES20.glGetAttribLocation(programId, "position");
         uniformTexture = GLES20.glGetUniformLocation(programId, "inputImageTexture");
         attribTextureCoordinate = GLES20.glGetAttribLocation(programId, "inputTextureCoordinate");
+        uniformModelMatrix = GLES20.glGetUniformLocation(programId, "modelMatrix");
+        uniformProjectdMatrix = GLES20.glGetUniformLocation(programId, "projectdMatrix");
     }
 
-    public void process(Renderable renderable){
+    public void process(Renderable renderable,float[] projectMatrix){
         GLES20.glUseProgram(programId);
 
         GLES20.glEnableVertexAttribArray(attribPosition);
@@ -45,6 +48,9 @@ public class Process {
 
         GLES20.glVertexAttribPointer(attribPosition, 3, GLES20.GL_FLOAT, false, 32, 0);
         GLES20.glVertexAttribPointer(attribTextureCoordinate, 2, GLES20.GL_FLOAT, false, 32, 24);
+
+        GLES20.glUniform4fv(uniformModelMatrix, 1, renderable.getModelMatrix(),0);
+        GLES20.glUniform4fv(uniformProjectdMatrix,1,projectMatrix,0);
 
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, renderable.getFaceNum() * 3, GLES20.GL_UNSIGNED_INT, 0);
 

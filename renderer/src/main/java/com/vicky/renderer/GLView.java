@@ -14,6 +14,7 @@ public class GLView extends GLSurfaceView {
         super(context, attrs);
 
         setEGLContextClientVersion(2);
+        setEGLConfigChooser(8, 8, 8, 8,16,0);
         RenderEngine.getInstance().init(context);
         setRenderer(RenderEngine.getInstance().getRenderer());
         setRenderMode(RENDERMODE_CONTINUOUSLY);
@@ -26,4 +27,5 @@ public class GLView extends GLSurfaceView {
     public void surfaceDestroyed(SurfaceHolder holder) {
 
     }
+
 }

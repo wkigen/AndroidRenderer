@@ -5,9 +5,9 @@ import android.opengl.GLSurfaceView;
 
 import com.vicky.renderer.RenderEngine;
 import com.vicky.renderer.renderable.Renderable;
+import com.vicky.renderer.scene.Camera;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -33,22 +33,24 @@ public class Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glClearColor(0, 0, 0, 1);
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-
         process.render_init();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        RenderEngine.getInstance().setViewPort(width, height);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glViewport(0, 0, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
+        Camera camera = RenderEngine.getInstance().getCamera();
         preDraw();
-        draw();
+        draw(camera.getProjecViewModeltMatrix());
         postDraw();
     }
 
@@ -67,10 +69,11 @@ public class Renderer implements GLSurfaceView.Renderer {
 
     }
 
-    private void draw(){
+    private void draw(float[] projectMatrix){
+
         while (!renderableQueue.isEmpty()){
             Renderable renderable = renderableQueue.poll();
-            process.process(renderable);
+            process.process(renderable,projectMatrix);
         }
     }
 

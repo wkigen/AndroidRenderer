@@ -1,19 +1,15 @@
 package com.vicky.renderer;
 
 import android.content.Context;
-import android.graphics.Camera;
 
 import com.vicky.renderer.renderable.Renderable;
 import com.vicky.renderer.renderer.*;
 import com.vicky.renderer.renderer.Process;
+import com.vicky.renderer.scene.Camera;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.RecursiveTask;
+
 
 /**
  * Created by vicky on 2017/4/21.
@@ -21,10 +17,12 @@ import java.util.concurrent.RecursiveTask;
 public class RenderEngine {
 
     private static RenderEngine     instance;
-    private Camera                  camera;
     private Renderer                renderer;
     private Map<String,Renderable>  renderableList;
     private Context                 context;
+    private Camera                  camera;
+    private int                     width;
+    private int                     height;
 
     private RenderEngine(){
     }
@@ -40,12 +38,16 @@ public class RenderEngine {
     {
         this.context = context;
 
-        camera = new Camera();
-        camera.setLocation(0,0,-10);
-
         renderer = new Renderer(new Process());
 
         renderableList = new HashMap<>();
+    }
+
+    public void setViewPort(int width,int height){
+        this.width = width;
+        this.height = height;
+
+        camera = new Camera(45, width / height,0,1,0,0, 3, 0, 0, 0, 0.0f, 1.0f, 0.0f);
     }
 
     public Context getContext(){
@@ -77,5 +79,6 @@ public class RenderEngine {
             renderableList.remove(name);
         }
     }
+
 
 }

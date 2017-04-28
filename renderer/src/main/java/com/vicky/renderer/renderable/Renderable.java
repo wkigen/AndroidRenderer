@@ -3,8 +3,10 @@ package com.vicky.renderer.renderable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.support.annotation.NonNull;
 
 import com.vicky.renderer.Constant;
+import com.vicky.renderer.scene.Node;
 import com.vicky.renderer.utils.FileUtils;
 import com.vicky.renderer.utils.OpenGlUtils;
 
@@ -19,7 +21,7 @@ import java.util.Queue;
 /**
  * Created by vicky on 2017/4/21.
  */
-public class Renderable {
+public class Renderable extends Node{
 
     protected int           textureId = Constant.Invalid_TextureId;
     protected int           dataBuffersId = Constant.Invalid_BuffersId;
@@ -32,16 +34,15 @@ public class Renderable {
     protected int           vertexNum;
     protected int           faceNum;
 
-    protected Matrix        matrix;
-
     protected Queue<Runnable>   runnableQueue;
 
     public Renderable(){
-        matrix = new Matrix();
-        init();
+        super();
     }
 
+    @Override
     protected void init(){
+        super.init();
         runnableQueue = new LinkedList<>();
     }
 
