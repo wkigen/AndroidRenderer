@@ -18,7 +18,7 @@ public class Process {
     protected int attribTextureCoordinate;
     protected int uniformTexture;
     protected int uniformModelMatrix;
-    protected int uniformProjectdMatrix;
+    protected int uniformProjectdViewMatrix;
 
     public Process(){
         init();
@@ -33,7 +33,7 @@ public class Process {
         uniformTexture = GLES20.glGetUniformLocation(programId, "inputImageTexture");
         attribTextureCoordinate = GLES20.glGetAttribLocation(programId, "inputTextureCoordinate");
         uniformModelMatrix = GLES20.glGetUniformLocation(programId, "modelMatrix");
-        uniformProjectdMatrix = GLES20.glGetUniformLocation(programId, "projectdMatrix");
+        uniformProjectdViewMatrix = GLES20.glGetUniformLocation(programId, "projectViewdMatrix");
     }
 
     public void process(Renderable renderable,float[] projectMatrix){
@@ -49,12 +49,11 @@ public class Process {
         GLES20.glVertexAttribPointer(attribPosition, 3, GLES20.GL_FLOAT, false, 32, 0);
         GLES20.glVertexAttribPointer(attribTextureCoordinate, 2, GLES20.GL_FLOAT, false, 32, 24);
 
-        GLES20.glUniform4fv(uniformModelMatrix, 1, renderable.getModelMatrix(),0);
-        GLES20.glUniform4fv(uniformProjectdMatrix,1,projectMatrix,0);
+        GLES20.glUniformMatrix4fv(uniformModelMatrix, 1, false,renderable.getModelMatrix(), 0);
+        GLES20.glUniformMatrix4fv(uniformProjectdViewMatrix, 1, false, projectMatrix, 0);
 
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, renderable.getFaceNum() * 3, GLES20.GL_UNSIGNED_INT, 0);
 
-        GLES20.glDisableVertexAttribArray(0);
         GLES20.glDisableVertexAttribArray(0);
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
