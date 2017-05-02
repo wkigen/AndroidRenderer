@@ -6,6 +6,8 @@ import com.vicky.renderer.renderable.Renderable;
 import com.vicky.renderer.renderer.*;
 import com.vicky.renderer.renderer.Process;
 import com.vicky.renderer.scene.Camera;
+import com.vicky.renderer.scene.Camera2D;
+import com.vicky.renderer.scene.Camera3D;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,7 @@ public class RenderEngine {
     private Renderer                renderer;
     private Map<String,Renderable>  renderableList;
     private Context                 context;
-    private Camera                  camera;
+    private Camera                  camera3D,camera2D,currCamera;
     private int                     width;
     private int                     height;
 
@@ -47,7 +49,10 @@ public class RenderEngine {
         this.width = width;
         this.height = height;
 
-        camera = new Camera(45, (float)width / (float)height,1.0f,10.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f);
+        float aspectRatio = (float)width / (float)height;
+        camera3D = new Camera3D(45,aspectRatio ,1.0f,10.0f,0.0f,0.0f,3.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f);
+
+        currCamera = camera3D;
     }
 
     public Context getContext(){
@@ -59,7 +64,7 @@ public class RenderEngine {
     }
 
     public Camera getCamera(){
-        return camera;
+        return currCamera;
     }
 
     public Map<String,Renderable> getRenderableList(){

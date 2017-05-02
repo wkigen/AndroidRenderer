@@ -23,6 +23,14 @@ import java.util.Queue;
  */
 public class Renderable extends Node{
 
+    //data struct
+    //POSITION       NORMAL         TEXTURE_COORDINATE
+    //  3(float)       3(float)           2(float)
+
+
+    //indice struce
+    //  int
+
     protected int           textureId = Constant.Invalid_TextureId;
     protected int           dataBuffersId = Constant.Invalid_BuffersId;
     protected int           elementBuffersId = Constant.Invalid_BuffersId;

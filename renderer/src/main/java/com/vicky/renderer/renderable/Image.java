@@ -1,29 +1,24 @@
 package com.vicky.renderer.renderable;
 
-import com.vicky.renderer.Constant;
+import android.graphics.Bitmap;
+
+import com.vicky.renderer.utils.FileUtils;
 import com.vicky.renderer.utils.OpenGlUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 /**
  * Created by vicky on 2017/4/24.
  */
 public class Image extends Renderable {
 
-    static final float DATA[] = {
-            //POSITION   NORMAL  TEXTURE_COORDINATE
-            -1.0f,-1.0f,-2.0f, 0.0f,0.0f,0.0f, 0.0f, 1.0f,
-            1.0f,-1.0f,-2.0f,  0.0f,0.0f,0.0f, 1.0f, 1.0f,
-            -1.0f,1.0f,-2.0f,  0.0f,0.0f,0.0f, 0.0f, 0.0f,
-            1.0f,1.0f,-2.0f,   0.0f,0.0f,0.0f, 1.0f, 0.0f,
-    };
-
-    public static final int INDEX[]={
+    public static final int INDICE[]={
             0,1,2,
             1,3,2,
     };
+
+    float aspect = 1;
 
     public Image(){
         super();
@@ -32,21 +27,44 @@ public class Image extends Renderable {
     @Override
     protected void init(){
         super.init();
+    }
+
+    @Override
+    public void readTexture(String name){
+        final Bitmap bitmap = FileUtils.loadBitmapFromAsset(name);
+        aspect = (float)bitmap.getWidth() / (float)bitmap.getHeight();
+        if (bitmap != null)
+            addRunable(new Runnable() {
+                @Override
+                public void run() {
+                    textureId = OpenGlUtils.loadTexture(bitmap,textureId,true);
+                }
+            });
+    }
+
+    @Override
+    public void readData(String path){
+
+        float DATA[] = {
+                //POSITION   NORMAL  TEXTURE_COORDINATE
+                -aspect,-1.0f,0.0f, 0.0f,0.0f,0.0f, 0.0f, 1.0f,
+                aspect,-1.0f,0.0f,  0.0f,0.0f,0.0f, 1.0f, 1.0f,
+                -aspect,1.0f,0.0f,  0.0f,0.0f,0.0f, 0.0f, 0.0f,
+                aspect,1.0f,0.0f,   0.0f,0.0f,0.0f, 1.0f, 0.0f,
+        };
+
         dataBuffer = ByteBuffer.allocateDirect(DATA.length * 4)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer();
         dataBuffer.put(DATA).flip();
 
-        indexBuffer  = ByteBuffer.allocateDirect(INDEX.length * 4)
+        indexBuffer  = ByteBuffer.allocateDirect(INDICE.length * 4)
                 .order(ByteOrder.nativeOrder())
                 .asIntBuffer();
-        indexBuffer.put(INDEX).flip();
+        indexBuffer.put(INDICE).flip();
 
         faceNum = 2;
-    }
 
-    @Override
-    public void readData(String path){
         addRunable(new Runnable() {
             @Override
             public void run() {

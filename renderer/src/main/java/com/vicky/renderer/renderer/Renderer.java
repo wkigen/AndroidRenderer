@@ -50,8 +50,9 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         Camera camera = RenderEngine.getInstance().getCamera();
         preDraw();
-        draw(camera.getProjecViewModeltMatrix());
+        draw(camera.getViewMatrix());
         postDraw();
+
     }
 
     private void preDraw(){
