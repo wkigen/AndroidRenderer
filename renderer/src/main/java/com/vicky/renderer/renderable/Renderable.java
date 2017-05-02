@@ -42,6 +42,8 @@ public class Renderable extends Node{
     protected int           vertexNum;
     protected int           faceNum;
 
+    protected RenderableType renderabletype;
+
     protected Queue<Runnable>   runnableQueue;
 
     public Renderable(){
@@ -52,6 +54,7 @@ public class Renderable extends Node{
     protected void init(){
         super.init();
         runnableQueue = new LinkedList<>();
+        renderabletype = RenderableType.Null;
     }
 
     public void addRunable(Runnable runnable){
@@ -101,5 +104,9 @@ public class Renderable extends Node{
 
     public int getFaceNum(){
         return faceNum;
+    }
+
+    public RenderableType getRenderabletype(){
+        return renderabletype;
     }
 }

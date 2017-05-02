@@ -3,6 +3,7 @@ package com.vicky.renderer;
 import android.content.Context;
 
 import com.vicky.renderer.renderable.Renderable;
+import com.vicky.renderer.renderable.RenderableType;
 import com.vicky.renderer.renderer.*;
 import com.vicky.renderer.renderer.Process;
 import com.vicky.renderer.scene.Camera;
@@ -20,9 +21,8 @@ public class RenderEngine {
 
     private static RenderEngine     instance;
     private Renderer                renderer;
-    private Map<String,Renderable>  renderableList;
     private Context                 context;
-    private Camera                  camera3D,camera2D,currCamera;
+    private Camera                  camera3D,currCamera;
     private int                     width;
     private int                     height;
 
@@ -40,9 +40,9 @@ public class RenderEngine {
     {
         this.context = context;
 
-        renderer = new Renderer(new Process());
-
-        renderableList = new HashMap<>();
+        renderer = new Renderer();
+        renderer.addProcess(RenderableType.Image,new Process());
+        renderer.addProcess(RenderableType.Background,new BackgroundProcess());
     }
 
     public void setViewPort(int width,int height){
@@ -67,23 +67,6 @@ public class RenderEngine {
         return currCamera;
     }
 
-    public Map<String,Renderable> getRenderableList(){
-        synchronized (renderableList){
-            return renderableList;
-        }
-    }
-
-    public void addRenderalbe(String name,Renderable renderable){
-        synchronized (renderableList){
-            renderableList.put(name,renderable);
-        }
-    }
-
-    public void removeRenderable(String name){
-        synchronized (renderableList){
-            renderableList.remove(name);
-        }
-    }
 
 
 }

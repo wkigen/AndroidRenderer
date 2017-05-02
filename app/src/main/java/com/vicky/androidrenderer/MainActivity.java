@@ -3,8 +3,9 @@ package com.vicky.androidrenderer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.vicky.renderer.RenderEngine;
+import com.vicky.renderer.renderable.BackgroundImage;
 import com.vicky.renderer.renderable.Image;
+import com.vicky.renderer.scene.SceneEngine;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,10 +14,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Image squareImage = new Image();
-        squareImage.readTexture("leimu.jpg");
-        squareImage.readData(null);
+        BackgroundImage image = new BackgroundImage();
+        image.readTexture("leimu.jpg");
+        image.readData(null);
         //image.translation(1,0,0);
-        RenderEngine.getInstance().addRenderalbe("leimu", squareImage);
+        SceneEngine.getInstance().addNode("leimu", image);
     }
 }
