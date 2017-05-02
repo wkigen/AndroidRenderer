@@ -14,11 +14,11 @@ public class Camera extends  Node{
     public Camera(float fovy, float aspect, float near, float far, float eyex,float eyey, float eyez,
                   float viewx,float viewy,float viewz, float upx,float upy,float upz){
 
-        Matrix.setIdentityM(projectMatrix,0);
         Matrix.setIdentityM(viewMatrix,0);
+        Matrix.setIdentityM(projectMatrix,0);
         Matrix.setIdentityM(projecViewModeltMatrix,0);
 
-        Matrix.setLookAtM(viewMatrix,0,eyex,eyey,eyez,viewx,viewy,viewz,upx,upy,upz);
+        //Matrix.setLookAtM(viewMatrix, 0, eyex, eyey, eyez, viewx, viewy, viewz, upx, upy, upz);
         Matrix.perspectiveM(projectMatrix, 0, fovy, aspect, near, far);
         Matrix.multiplyMM(projecViewModeltMatrix, 0, projectMatrix, 0, viewMatrix, 0);
     }

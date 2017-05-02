@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         Image image = new Image();
         image.readTexture("leimu.jpg");
         image.readData(null);
+        image.translation(2,0,0);
         RenderEngine.getInstance().addRenderalbe("leimu",image);
     }
 }

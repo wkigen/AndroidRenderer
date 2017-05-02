@@ -6,7 +6,6 @@ varying vec2 textureCoordinate;
 
 void main()
 {
-    gl_Position = projectViewdMatrix * position ;
-    //gl_Position = position;
+    gl_Position = projectViewdMatrix * modelMatrix * position ;
     textureCoordinate = inputTextureCoordinate;
 }
