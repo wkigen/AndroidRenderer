@@ -1,17 +1,15 @@
-package com.vicky.renderer;
+package com.vicky.renderer.renderer;
 
 import android.content.Context;
 
-import com.vicky.renderer.renderable.Renderable;
 import com.vicky.renderer.renderable.RenderableType;
-import com.vicky.renderer.renderer.*;
-import com.vicky.renderer.renderer.Process;
 import com.vicky.renderer.scene.Camera;
-import com.vicky.renderer.scene.Camera2D;
 import com.vicky.renderer.scene.Camera3D;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 
 /**
@@ -21,10 +19,13 @@ public class RenderEngine {
 
     private static RenderEngine     instance;
     private Renderer                renderer;
-    private Context                 context;
     private Camera                  camera3D,currCamera;
     private int                     width;
     private int                     height;
+
+    private Map<RenderableType,Process> processes;
+
+    protected Queue<Runnable>       runnableQueue;
 
     private RenderEngine(){
     }
@@ -36,13 +37,15 @@ public class RenderEngine {
         return instance;
     }
 
-    public void init(Context context)
+    public void init()
     {
-        this.context = context;
+        processes = new HashMap<>();
+        runnableQueue = new LinkedList<>();
+
+        processes.put(RenderableType.Image, new Process());
+        processes.put(RenderableType.Background,new BackgroundProcess());
 
         renderer = new Renderer();
-        renderer.addProcess(RenderableType.Image,new Process());
-        renderer.addProcess(RenderableType.Background,new BackgroundProcess());
     }
 
     public void setViewPort(int width,int height){
@@ -55,8 +58,19 @@ public class RenderEngine {
         currCamera = camera3D;
     }
 
-    public Context getContext(){
-        return context;
+    public void addProcess(RenderableType type,Process process){
+        processes.put(type,process);
+    }
+
+    public Process getProcess(RenderableType type){
+        return  processes.get(type);
+    }
+
+    public void renderInit(){
+        for (Map.Entry<RenderableType,Process>  processEntry : processes.entrySet()){
+            Process process = processEntry.getValue();
+            process.renderInit();
+        }
     }
 
     public Renderer getRenderer(){
@@ -67,6 +81,18 @@ public class RenderEngine {
         return currCamera;
     }
 
+    public void addRunable(Runnable runnable){
+        synchronized (runnableQueue){
+            runnableQueue.add(runnable);
+        }
+    }
 
+    public void runRunable(){
+        synchronized (runnableQueue){
+            while (!runnableQueue.isEmpty()){
+                runnableQueue.poll().run();
+            }
+        }
+    }
 
 }

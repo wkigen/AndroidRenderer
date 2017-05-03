@@ -3,7 +3,6 @@ package com.vicky.renderer.renderer;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.vicky.renderer.RenderEngine;
 import com.vicky.renderer.renderable.Renderable;
 import com.vicky.renderer.renderable.RenderableType;
 import com.vicky.renderer.scene.Camera;
@@ -23,30 +22,22 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Renderer implements GLSurfaceView.Renderer {
 
-    private Map<RenderableType,Process>     processes;
-    private Queue<Renderable>               renderableQueue;
+    private Queue<Renderable>   renderableQueue;
 
     public Renderer(){
-        processes = new HashMap<>();
         renderableQueue = new LinkedList<>();
-    }
-
-    public void addProcess(RenderableType type,Process process){
-        processes.put(type,process);
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        for (Map.Entry<RenderableType,Process>  process : processes.entrySet()){
-            process.getValue().render_init();
-        }
+        RenderEngine.getInstance().renderInit();
+        SceneEngine.getInstance().reRead();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         RenderEngine.getInstance().setViewPort(width, height);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glViewport(0, 0, width, height);
     }
 
     @Override
@@ -55,10 +46,10 @@ public class Renderer implements GLSurfaceView.Renderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         Camera camera = RenderEngine.getInstance().getCamera();
+        RenderEngine.getInstance().runRunable();
         preDraw();
         draw(camera.getViewMatrix());
         postDraw();
-
     }
 
     private void preDraw(){
@@ -67,7 +58,6 @@ public class Renderer implements GLSurfaceView.Renderer {
             Node node = renderableList.get(name);
             if (node instanceof  Renderable){
                 Renderable renderable = (Renderable)node;
-                renderable.runRunable();
                 renderableQueue.add(renderable);
             }
         }
@@ -82,7 +72,7 @@ public class Renderer implements GLSurfaceView.Renderer {
         while (!renderableQueue.isEmpty()){
             Renderable renderable = renderableQueue.poll();
             RenderableType renderableType = renderable.getRenderabletype();
-            Process process = processes.get(renderableType);
+            Process process = RenderEngine.getInstance().getProcess(renderableType);
             if (process != null){
                 process.process(renderable,projectMatrix);
             }

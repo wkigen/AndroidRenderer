@@ -1,6 +1,8 @@
 package com.vicky.renderer.scene;
 
 
+import com.vicky.renderer.renderable.Renderable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +12,11 @@ import java.util.Map;
 public class SceneEngine {
 
     private static SceneEngine instance;
-    private Map<String,Node> renderableList;
+    private Map<String,Node> nodeList;
+    private Boolean needReRead = false;
 
     private SceneEngine(){
-        renderableList = new HashMap<>();
+        nodeList = new HashMap<>();
     }
 
     public static synchronized SceneEngine getInstance() {
@@ -24,22 +27,33 @@ public class SceneEngine {
     }
 
     public Map<String,Node> getNodeList(){
-        synchronized (renderableList){
-            return renderableList;
+        synchronized (nodeList){
+            return nodeList;
         }
     }
 
     public void addNode(String name, Node node){
-        synchronized (renderableList){
-            renderableList.put(name,node);
+        synchronized (nodeList){
+            nodeList.put(name, node);
         }
     }
 
     public void removeNode(String name){
-        synchronized (renderableList){
-            renderableList.remove(name);
+        synchronized (nodeList){
+            nodeList.remove(name);
         }
     }
 
+    public void reRead(){
+        if (needReRead){
+            for (Map.Entry<String,Node> node : nodeList.entrySet()){
+                node.getValue().reRead();
+            }
+            needReRead = false;
+        }
+    }
 
+    public void setNeedReRead(boolean needReRead){
+        this.needReRead = needReRead;
+    }
 }

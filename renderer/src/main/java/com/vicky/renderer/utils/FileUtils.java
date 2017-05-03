@@ -1,10 +1,11 @@
 package com.vicky.renderer.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.RawRes;
 
-import com.vicky.renderer.RenderEngine;
+import com.vicky.renderer.renderer.RenderEngine;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,8 +17,8 @@ import java.io.InputStreamReader;
  */
 public class FileUtils {
 
-    public static String loadShaderFromRaw(@RawRes final int resourceId){
-        final InputStream inputStream = RenderEngine.getInstance().getContext().getResources().openRawResource(
+    public static String loadShaderFromRaw(final Context context,@RawRes final int resourceId){
+        final InputStream inputStream = context.getResources().openRawResource(
                 resourceId);
         final InputStreamReader inputStreamReader = new InputStreamReader(
                 inputStream);
@@ -39,9 +40,9 @@ public class FileUtils {
         return body.toString();
     }
 
-    public static Bitmap loadBitmapFromAsset(final String name){
+    public static Bitmap loadBitmapFromAsset(final Context context,final String name){
         try{
-            final InputStream inputStream = RenderEngine.getInstance().getContext().getResources().getAssets().open(name);
+            final InputStream inputStream = context.getResources().getAssets().open(name);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             return bitmap;
         }catch (Exception e){

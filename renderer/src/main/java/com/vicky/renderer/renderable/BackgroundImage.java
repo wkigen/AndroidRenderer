@@ -1,5 +1,6 @@
 package com.vicky.renderer.renderable;
 
+import com.vicky.renderer.renderer.RenderEngine;
 import com.vicky.renderer.utils.OpenGlUtils;
 
 import java.nio.ByteBuffer;
@@ -43,13 +44,15 @@ public class BackgroundImage extends Image {
 
         faceNum = 2;
 
-        addRunable(new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                dataBuffersId = OpenGlUtils.loadArrayBuffers(dataBuffersId, dataBuffer);
-                elementBuffersId = OpenGlUtils.loadElementBuffers(elementBuffersId, indexBuffer);
+                dataBuffersId = OpenGlUtils.loadArrayBuffers( dataBuffer);
+                elementBuffersId = OpenGlUtils.loadElementBuffers(indexBuffer);
             }
-        });
+        };
+
+        RenderEngine.getInstance().addRunable( runnable);
     }
 
 }

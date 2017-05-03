@@ -7,6 +7,7 @@ import android.support.annotation.RawRes;
 import android.util.Log;
 
 import com.vicky.renderer.Constant;
+import com.vicky.renderer.resources.ResourcesEngine;
 
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
@@ -41,9 +42,9 @@ public class OpenGlUtils {
         return textures[0];
     }
 
-    public static int loadTexture(final Bitmap img, final int textureId, final boolean recycle) {
+    public static int loadTexture(final Bitmap img) {
         int textures[] = new int[1];
-        if (textureId == Constant.Invalid_TextureId) {
+
             GLES20.glGenTextures(1, textures, 0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
@@ -56,14 +57,7 @@ public class OpenGlUtils {
                     GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, img, 0);
-        } else {
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-            GLUtils.texSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, img);
-            textures[0] = textureId;
-        }
-        if (recycle) {
-            img.recycle();
-        }
+
         return textures[0];
     }
 
@@ -104,28 +98,23 @@ public class OpenGlUtils {
     }
 
     public static int loadProgramFromRaw(@RawRes final int vRaw, @RawRes int  fRaw) {
-        String strVShder = FileUtils.loadShaderFromRaw(vRaw);
-        String strFShder = FileUtils.loadShaderFromRaw(fRaw);
+        String strVShder = ResourcesEngine.getInstance().getShaderFromRaw(vRaw);
+        String strFShder = ResourcesEngine.getInstance().getShaderFromRaw(fRaw);
         return loadProgram(strVShder,strFShder);
     }
 
-    public static int loadArrayBuffers(final int buffersId,final FloatBuffer floatBuffer){
-        return loadBuffers(GLES20.GL_ARRAY_BUFFER, buffersId, floatBuffer);
+    public static int loadArrayBuffers(final FloatBuffer floatBuffer){
+        return loadBuffers(GLES20.GL_ARRAY_BUFFER, floatBuffer);
     }
 
-    public static int loadElementBuffers(final int buffersId,final IntBuffer intBuffer){
-        return loadBuffers(GLES20.GL_ELEMENT_ARRAY_BUFFER,buffersId,intBuffer);
+    public static int loadElementBuffers(final IntBuffer intBuffer){
+        return loadBuffers(GLES20.GL_ELEMENT_ARRAY_BUFFER,intBuffer);
     }
 
-    public static int loadBuffers(final int traget,final int buffersId,final Buffer buffer){
+    public static int loadBuffers(final int traget,final Buffer buffer){
         int buffers[] = new int[1];
-        if (buffersId == Constant.Invalid_BuffersId){
-            GLES20.glGenBuffers(1,buffers,0);
-            GLES20.glBindBuffer(traget, buffers[0]);
-        }else{
-            GLES20.glBindBuffer(traget,buffersId);
-        }
-
+        GLES20.glGenBuffers(1,buffers,0);
+        GLES20.glBindBuffer(traget, buffers[0]);
         GLES20.glBufferData(traget,buffer.limit() * 4,buffer,GLES20.GL_STATIC_DRAW);
         GLES20.glBindBuffer(traget, 0);
         return buffers[0];

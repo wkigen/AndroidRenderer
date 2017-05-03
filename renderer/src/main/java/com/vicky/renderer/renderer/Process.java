@@ -24,10 +24,10 @@ public class Process {
         init();
     }
 
-    protected void init(){}
+    protected void init(){
+    }
 
-
-    public void render_init(){
+    public void renderInit(){
         programId = OpenGlUtils.loadProgramFromRaw(R.raw.vertex,R.raw.fragment);
         attribPosition = GLES20.glGetAttribLocation(programId, "position");
         uniformTexture = GLES20.glGetUniformLocation(programId, "inputImageTexture");

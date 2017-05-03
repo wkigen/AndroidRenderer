@@ -2,10 +2,13 @@ package com.vicky.renderer.scene;
 
 import android.opengl.Matrix;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by vicky on 2017/4/27.
  */
-public class Node {
+public abstract class Node {
 
     protected float[] modelMatrix;
 
@@ -25,5 +28,7 @@ public class Node {
     public void translation(float x,float y,float z) {
         Matrix.translateM(modelMatrix,0,x,y,z);
     }
+
+    public abstract void reRead();
 
 }

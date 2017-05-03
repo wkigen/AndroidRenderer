@@ -25,6 +25,11 @@ public class Camera extends  Node{
         Matrix.multiplyMM(viewMatrix, 0, viewModeltMatrix, 0, modelMatrix, 0);
     }
 
+    @Override
+    public void reRead() {
+
+    }
+
     public float[] getViewMatrix(){
         return viewMatrix;
     }

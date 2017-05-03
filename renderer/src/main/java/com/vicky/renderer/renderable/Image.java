@@ -2,7 +2,7 @@ package com.vicky.renderer.renderable;
 
 import android.graphics.Bitmap;
 
-import com.vicky.renderer.utils.FileUtils;
+import com.vicky.renderer.renderer.RenderEngine;
 import com.vicky.renderer.utils.OpenGlUtils;
 
 import java.nio.ByteBuffer;
@@ -30,16 +30,9 @@ public class Image extends Renderable {
     }
 
     @Override
-    public void readTexture(String name){
-        final Bitmap bitmap = FileUtils.loadBitmapFromAsset(name);
+    public void readTexture(final Bitmap bitmap){
         aspect = (float)bitmap.getWidth() / (float)bitmap.getHeight();
-        if (bitmap != null)
-            addRunable(new Runnable() {
-                @Override
-                public void run() {
-                    textureId = OpenGlUtils.loadTexture(bitmap,textureId,true);
-                }
-            });
+        super.readTexture(bitmap);
     }
 
     @Override
@@ -65,13 +58,22 @@ public class Image extends Renderable {
 
         faceNum = 2;
 
-        addRunable(new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                dataBuffersId = OpenGlUtils.loadArrayBuffers(dataBuffersId, dataBuffer);
-                elementBuffersId = OpenGlUtils.loadElementBuffers(elementBuffersId, indexBuffer);
+                dataBuffersId = OpenGlUtils.loadArrayBuffers( dataBuffer);
+                elementBuffersId = OpenGlUtils.loadElementBuffers( indexBuffer);
             }
-        });
+        };
+        RenderEngine.getInstance().addRunable(runnable);
+
+    }
+
+    @Override
+    public void reRead() {
+        textureId = OpenGlUtils.loadTexture(bitmap);
+        dataBuffersId = OpenGlUtils.loadArrayBuffers(dataBuffer);
+        elementBuffersId = OpenGlUtils.loadElementBuffers( indexBuffer);
     }
 
 }

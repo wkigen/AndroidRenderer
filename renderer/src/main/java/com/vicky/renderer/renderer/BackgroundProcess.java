@@ -15,7 +15,8 @@ public class BackgroundProcess extends Process {
         super();
     }
 
-    public void render_init(){
+    @Override
+    public void renderInit(){
         programId = OpenGlUtils.loadProgramFromRaw(R.raw.background_vertex, R.raw.fragment);
         attribPosition = GLES20.glGetAttribLocation(programId, "position");
         uniformTexture = GLES20.glGetUniformLocation(programId, "inputImageTexture");
