@@ -29,6 +29,10 @@ public abstract class Node {
         Matrix.translateM(modelMatrix,0,x,y,z);
     }
 
+    public void rotate(float a,float x,float y,float z){
+        Matrix.rotateM(modelMatrix,0,a,x,y,z);
+    }
+
     public abstract void reRead();
 
 }

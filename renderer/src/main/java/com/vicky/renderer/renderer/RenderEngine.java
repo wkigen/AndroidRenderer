@@ -58,9 +58,9 @@ public class RenderEngine {
         currCamera = camera3D;
     }
 
-    public void addProcess(RenderableType type,Process process){
-        processes.put(type,process);
-    }
+//    public void addProcess(RenderableType type,Process process){
+//        processes.put(type,process);
+//    }
 
     public Process getProcess(RenderableType type){
         return  processes.get(type);

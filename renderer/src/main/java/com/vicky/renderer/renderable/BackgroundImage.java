@@ -15,6 +15,10 @@ public class BackgroundImage extends Image {
         super();
     }
 
+    public BackgroundImage(String name){
+        super(name);
+    }
+
     @Override
     protected void init(){
         super.init();

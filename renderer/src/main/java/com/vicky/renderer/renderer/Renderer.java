@@ -8,6 +8,7 @@ import com.vicky.renderer.renderable.RenderableType;
 import com.vicky.renderer.scene.Camera;
 import com.vicky.renderer.scene.Node;
 import com.vicky.renderer.scene.SceneEngine;
+import com.vicky.renderer.utils.DistanceUtil;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,6 +37,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        DistanceUtil.init(width,height);
         RenderEngine.getInstance().setViewPort(width, height);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     }

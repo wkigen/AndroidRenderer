@@ -20,8 +20,15 @@ public class Camera extends  Node{
         }
     }
 
+    @Override
     public void translation(float x,float y,float z) {
-        Matrix.translateM(modelMatrix,0,x,y,z);
+        super.translation(x, y, z);
+        Matrix.multiplyMM(viewMatrix, 0, viewModeltMatrix, 0, modelMatrix, 0);
+    }
+
+    @Override
+    public void rotate(float a,float x,float y,float z){
+        super.rotate(a,x,y,z);
         Matrix.multiplyMM(viewMatrix, 0, viewModeltMatrix, 0, modelMatrix, 0);
     }
 

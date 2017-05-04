@@ -3,6 +3,7 @@ package com.vicky.renderer.renderable;
 import android.graphics.Bitmap;
 
 import com.vicky.renderer.renderer.RenderEngine;
+import com.vicky.renderer.resources.ResourcesEngine;
 import com.vicky.renderer.utils.OpenGlUtils;
 
 import java.nio.ByteBuffer;
@@ -21,6 +22,12 @@ public class Image extends Renderable {
 
     public Image(){
         super();
+    }
+
+    public Image(String name){
+        super();
+        readTexture(ResourcesEngine.getInstance().getBitmap(name));
+        readData(null);
     }
 
     @Override

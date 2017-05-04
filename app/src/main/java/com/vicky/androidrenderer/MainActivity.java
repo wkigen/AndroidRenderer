@@ -21,9 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         glView = (GLView)findViewById(R.id.gv_main);
 
-        BackgroundImage image = new BackgroundImage();
-        image.readTexture(ResourcesEngine.getInstance().getBitmap("leimu.jpg"));
-        image.readData(null);
+        Image image = new Image("leimu.jpg");
         SceneEngine.getInstance().addNode("leimu", image);
     }
 
