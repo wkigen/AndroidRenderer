@@ -39,3 +39,7 @@ captures/
 
 # Keystore files
 *.jks
+
+#jni libs
+renderer/src/main/libs
+renderer/src/main/obj

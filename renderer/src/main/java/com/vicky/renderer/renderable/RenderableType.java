@@ -9,6 +9,6 @@ public enum RenderableType {
 
     Background,
     Image,
-
+    Mesh,
 
 }

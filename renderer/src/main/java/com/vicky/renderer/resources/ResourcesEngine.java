@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.RawRes;
 
-import com.vicky.renderer.utils.FileUtils;
+import com.vicky.renderer.io.FileUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,11 +51,26 @@ public class ResourcesEngine {
         if (shaderMap.containsKey(resourceId)){
             return shaderMap.get(resourceId);
         }else {
-            String shader = FileUtils.loadShaderFromRaw(context,resourceId);
+            String shader = FileUtils.loadShaderFromRaw(context, resourceId);
             if (shader != null)
                 shaderMap.put(resourceId,shader);
             return shader;
         }
     }
 
+    public byte[] getFileData(final String path){
+        File file = new File(path);
+
+        if (file.exists()){
+            try {
+                FileInputStream fileInputStream = new FileInputStream(file);
+                byte[] data = new byte[fileInputStream.available()];
+                fileInputStream.read(data);
+                return data;
+            }catch (Exception e){
+                return null;
+            }
+        }
+        return null;
+    }
 }

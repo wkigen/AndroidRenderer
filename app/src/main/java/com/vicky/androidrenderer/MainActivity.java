@@ -4,11 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.vicky.renderer.GLView;
-import com.vicky.renderer.renderable.BackgroundImage;
+import com.vicky.renderer.mesh.MeshEngine;
 import com.vicky.renderer.renderable.Image;
-import com.vicky.renderer.resources.ResourcesEngine;
 import com.vicky.renderer.scene.SceneEngine;
-import com.vicky.renderer.utils.FileUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         Image image = new Image("leimu.jpg");
         SceneEngine.getInstance().addNode("leimu", image);
+
+        MeshEngine.getInstance().createMesh("/sdcard/Download/qshambler.md5mesh");
     }
 
     @Override

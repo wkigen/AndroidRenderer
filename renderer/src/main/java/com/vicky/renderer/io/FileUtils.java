@@ -1,4 +1,4 @@
-package com.vicky.renderer.utils;
+package com.vicky.renderer.io;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +8,7 @@ import android.support.annotation.RawRes;
 import com.vicky.renderer.renderer.RenderEngine;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,4 +50,14 @@ public class FileUtils {
             return null;
         }
     }
+
+    public static InputStream loadFileFromAsset(final Context context,final String name){
+        try{
+            return context.getResources().getAssets().open(name);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+
 }
