@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 JNIEXPORT void JNICALL Java_com_vicky_renderer_jni_RendererHelperJni_readMD5Mesh
-        (JNIEnv *env, jclass obj, jbyteArray buf);
+        (JNIEnv *env, jclass obj, jbyteArray buf,jlong len);
 
 #ifdef __cplusplus
 }

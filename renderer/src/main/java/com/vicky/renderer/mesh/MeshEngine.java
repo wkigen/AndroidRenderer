@@ -24,7 +24,7 @@ public class MeshEngine {
     public void createMesh(String name){
         byte[] data = ResourcesEngine.getInstance().getFileData(name);
         if (data != null)
-            RendererHelperJni.readMD5Mesh(data);
+            RendererHelperJni.readMD5Mesh(data,data.length);
     }
 
 }

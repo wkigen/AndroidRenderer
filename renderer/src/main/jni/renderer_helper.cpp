@@ -3,7 +3,7 @@
 
 extern "C" {
 
-JNIEXPORT void JNICALL Java_com_vicky_renderer_jni_RendererHelperJni_readMD5Mesh(JNIEnv *env, jclass obj, jbyteArray buf)
+JNIEXPORT void JNICALL Java_com_vicky_renderer_jni_RendererHelperJni_readMD5Mesh(JNIEnv *env, jclass obj, jbyteArray buf,jlong len)
 {
         jbyte* data = (jbyte*) env->GetPrimitiveArrayCritical( buf, 0);
 

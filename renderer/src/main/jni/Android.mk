@@ -3,7 +3,8 @@ include $(CLEAR_VARS)
 
 
 LOCAL_MODULE    := renderer_core
-LOCAL_SRC_FILES := renderer_helper.cpp
+LOCAL_SRC_FILES := renderer_helper.cpp \
+								 md5_mesh.cpp
 
 
 

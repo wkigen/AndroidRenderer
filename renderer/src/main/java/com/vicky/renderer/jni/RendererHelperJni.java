@@ -9,5 +9,5 @@ public class RendererHelperJni {
         System.loadLibrary("renderer_core");
     }
 
-    public static native void readMD5Mesh(byte[] data);
+    public static native void readMD5Mesh(byte[] data,long len);
 }
